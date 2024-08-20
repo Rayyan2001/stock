@@ -1,0 +1,194 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Get CSRF token from cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+        $('#predict-form').submit(function (event) {
+            event.preventDefault();  // Prevent form submission
+
+            
+
+
+            var formData = new FormData();
+            formData.append('csv_file', $('#csv-file')[0].files[0]);
+            formData.append('model', $('[name="model"]').val());
+
+            console.log($('#numberInput').val())
+            formData.append('numberInput', $('#numberInput').val());
+            
+            if ($('#dropoutRateContainer').is(':visible')) {
+                formData.append('dropoutRate', $('[name="dropoutRate"]').val());
+            }
+
+            $('#result').text('Model is training. Please wait it takes about 2 minutes or less');
+
+            $.ajax({
+                url: '/predict',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);  
+                },
+                success: function (response) {
+                    $('#result-table tbody').empty();
+                    $('#result').empty();
+                    console.log(response.data)
+
+                    $('#result').append($('<span>').text('Train RMSE: ' + response.data.train_rmse.toFixed(2)));
+                        $('#result').append($('<span>').html('&nbsp;&nbsp;&nbsp;&nbsp;')); // Adding tab space
+                    $('#result').append($('<span>').text(' Test RMSE: ' + response.data.test_rmse.toFixed(2)));
+                    $('#result').append($('<span>').html('<br>')); // Adding a line break here
+                    $('#result').append($('<span>').text(' Train R2: ' + response.data.train_r2.toFixed(2)));
+                        $('#result').append($('<span>').html('&nbsp;&nbsp;&nbsp;&nbsp;')); // Adding tab space
+                    $('#result').append($('<span>').text(' Test R2: ' + response.data.test_r2.toFixed(2)));
+
+                    // $('#result').append($('<span>').html('<br>')); // Adding a line break here
+                    // $('#result').append($('<span>').text(' Train MAE: ' + response.data.train_mae.toFixed(2)));
+                    //     $('#result').append($('<span>').html('&nbsp;&nbsp;&nbsp;&nbsp;')); // Adding tab space
+                    // $('#result').append($('<span>').text(' Test MAE: ' + response.data.test_mae.toFixed(2)));
+                     // Append the plot div
+                    $('#plot-div').html(response.data.plot_div);
+                    $('#plot-div_1').html(response.data.plot_div_1);
+                    $('#plot-div_2').html(response.data.plot_div_2);
+                    $('#plot-div_3').html(response.data.plot_div_3);
+
+                    $.each(response.data.prediction.date, function (index, value) {
+                        var dateOnly=value.split('T')[0];
+                        var newRow = $('<tr>');
+                        newRow.append($('<td>').text(dateOnly));
+                        
+                        newRow.append($('<td>').text('Rs.' + response.data.prediction.close_price[index].toFixed(2)));
+
+                        $('#result-table tbody').append(newRow);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<section class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Prediction Result</h2>
+        </div>
+
+    </div>
+</section>
+<section class="inner-page">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2>Result</h2>
+        </div>
+
+
+        <form id="predict-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 mb-3">
+                        <input class="form-control" type="file" id="csv-file" name="csv_file" required>
+                    </div>
+                    <div class="col-lg-4 col-md-4 mb-3">
+                        <select class="form-control" name="model" id="model_select" required>
+                            <option value="" disabled selected>Select a Model</option>
+                            <option value="LSTM">LSTM</option>
+                            <option value="GRU">GRU</option>
+                            <option value="RF">RF</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-4 mb-3">
+                        <label for="prediction_days">Prediction Days:</label>
+                        <input class='form-control' id="numberInput" name="numberInput" type="number" min="7" max="60" value="7" required>
+                    </div>
+                    <style>
+                        .form-control {
+                            width: 100%;
+                        }
+                        #numberInput {
+                            max-width: 100px; /* Adjust this value as needed */
+                            display: inline-block;
+                        }
+                    </style>
+                    <script>
+                        document.getElementById('model_select').addEventListener('change', function() {
+                            var selectedLayer = this.value;
+                            var dropoutRateSelect = document.getElementById('dropoutRateContainer');
+                
+                            if (selectedLayer === 'LSTM' || selectedLayer === 'GRU') {
+                                dropoutRateSelect.style.display = 'block';
+                            } else {
+                                dropoutRateSelect.style.display = 'none';
+                            }
+                        });
+                    </script>
+                    <div class="col-lg-4 col-md-4 mb-3" id="dropoutRateContainer">
+                    <label for="dropoutRateSelect">DropOut Rate :</label>
+                    <select id="dropoutRateSelect" name="dropoutRate" class="col-lg-4 col-md-4 mb-3">
+                        <option value="0.1">0.1</option>
+                        <option value="0.2" selected>0.2</option>
+                        <option value="0.3">0.3</option>
+                        <option value="0.4">0.4</option>
+                        <option value="0.5">0.5</option>
+                    </select>   
+                    </div>    
+                    
+                    
+                    <div class="col-lg-4 col-md-4 mb-3">
+                        <input class="btn btn-primary form-control" type="submit" value="Predict">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <p class="text-danger" id="result"></p>
+        <div id="plot-div_1"></div>
+        <div id="plot-div_2"></div>
+        <div id="plot-div_3"></div>
+        <div id="plot-div"></div>  <!-- Placeholder for Plotly chart -->
+        <table class="table table-striped" id="result-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Close Price</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- <div id="chart_predict">
+            {% if plot_div %}
+            {{ plot_div|safe }}
+            {% endif %}
+        </div> -->
+    </div>
+</section>
+
+
+{% endblock %}

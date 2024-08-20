@@ -1,0 +1,428 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% load static %}
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">
+            Explore the Potential of Investing</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Unlock opportunities, discover trends.</h2>
+          <div data-aos="fade-up" data-aos-delay="800">
+            <a href="/predict" class="btn-get-started scrollto">Predict Now</a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">
+          <img src="{% static 'staticfiles/admin/img/h.jpg' %}" class="img-fluid animated" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>About Us</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="150">
+            <p>
+              Welcome to our innovative platform, where artificial intelligence meets the exciting world of stock
+              market prediction. At UPDOWNSTOCK
+            </p>
+            <ul>
+              <li><i class="ri-check-double-line"></i> We pride ourselves on harnessing the power of advanced AI models
+                to provide you with accurate and insightful forecasts for the ever-changing stock market.</li>
+              <li><i class="ri-check-double-line"></i>Empower yourself with informed decisions based on data-driven predictions and market analysis.</li>
+            </ul>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-up" data-aos-delay="300">
+            <p>
+              Join us on this revolutionary journey, where technology meets finance, and unlock the potential of your
+              investments.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+   
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Services</h2>
+        </div>
+
+        <div class="row">
+          <div class='card' style='width: 15rem;margin:auto' data-aos="fade-up" data-aos-delay="400">
+            <img src="{% static 'staticfiles/admin/img/pre.jpg' %}" class="card-img-top" alt="">
+            <div class="card-body">
+                <h4 class="title">Stock Prediction</h4>
+                <p class="card-text">Predict stock prices for upcoming days with help of Machile learning models </p>
+                <a href="/predict" class="btn btn-primary">Click Here</a>
+            </div>
+        </div>
+
+        <div class='card' style='width: 15rem;margin:auto' data-aos="fade-up" data-aos-delay="400">
+          <img src="{% static 'staticfiles/admin/img/vi.jpg' %}" class="card-img-top" alt="">
+          <div class="card-body">
+              <h4 class="title">Data Visualization</h4>
+              <p class="card-text">Visualize your stock data to see how it has been performing in a graphical manner </p>
+              <a href="/visualization" class="btn btn-primary">Click Here</a>
+          </div>
+      </div>
+
+          
+       
+      <div class='card' style='width: 15rem;margin:auto' data-aos="fade-up" data-aos-delay="400">
+        <img src="{% static 'staticfiles/admin/img/h.jpg' %}" class="card-img-top" alt="" >
+        <div class="card-body">
+            <h4 class="title">Nepse Data </h4>
+            <p class="card-text">Get data for any stock to predict and gain upperhand over others in the market. </p>
+            <a href="/data_download" class="btn btn-primary my-0">Click Here</a>
+        </div>
+    </div>
+
+    <div class='card' style='width: 15rem;margin:auto' data-aos="fade-up" data-aos-delay="400">
+      <img src="{% static 'staticfiles/admin/img/find.jpg' %}" class="card-img-top" alt="">
+      <div class="card-body">
+          <h4 class="title">Our Findings </h4>
+          <p class="card-text">Explore our research  and stay updated on market trends and opportunities. </p>
+          <a href="/finding" class="btn btn-primary">Click Here</a>
+      </div>
+  </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+ 
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team section-bg">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Team</h2>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member" data-aos="fade-up" data-aos-delay="100">
+              <div class="member-img">
+                <img src="{% static 'assets/img/team/anurag.jpg' %}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Anurag Paudel</h4>
+             
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member" data-aos="fade-up" data-aos-delay="200">
+              <div class="member-img">
+                <img  src="{% static 'assets/img/team/avishek.jpg' %}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Avishek Hada</h4>
+             
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member" data-aos="fade-up" data-aos-delay="300">
+              <div class="member-img">
+                <img  src="{% static 'assets/img/team/habi.jpg' %}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Habi Pyatha</h4>
+               
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member" data-aos="fade-up" data-aos-delay="400">
+              <div class="member-img">
+                <img  src="{% static 'assets/img/team/sujan_karki.jpg' %}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Sujan Dhoj Karki</h4>
+               
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+    <!-- ======= F.A.Q Section ======= -->
+    <section id="faq" class="faq">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>Is the prediction accurate?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              The predictions made do not guarantee the accuracy but gives a general idea of what the stock price can be
+              in general scenario. So, common assumptions and market analysis must be done to that might affect general
+              conditons.
+            </p>
+          </div>
+        </div><!-- End F.A.Q Item-->
+
+        <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-5">
+            <i class="ri-question-line"></i>
+            <h4>Who will be responsible if I go in loss?</h4>
+          </div>
+          <div class="col-lg-7">
+            <p>
+              We only provide people with the tool that can help predict assume the prices and any loss or profit
+              incurred is not in account for UPDOWNSTOCK. UPDOWNSTOCK takes no responsibility.
+            </p>
+          </div>
+        </div><!-- End F.A.Q Item-->
+      </div>
+    </section><!-- End F.A.Q Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Contact Us</h2>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="contact-about">
+              <h3>UPDOWNSTOCK</h3>
+              <p>Discover the Power of Investing</p>
+              <div class="social-links">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
+            <div class="info">
+              <div>
+                <i class="ri-map-pin-line"></i>
+                <p>Libali-6, Bhaktapur<br>Nepal</p>
+              </div>
+
+              <div>
+                <i class="ri-mail-send-line"></i>
+                <p>info@updownstock.com</p>
+              </div>
+
+              <div>
+                <i class="ri-phone-line"></i>
+                <p>+977 9841 4243 44</p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-lg-5 col-md-12" data-aos="fade-up" data-aos-delay="300">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d883.375782876981!2d85.43842601964027!3d27.67084043623559!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb0553197e9d2f%3A0x73b807bbe91781af!2sLiwali%2C%20Bhaktapur%2044800!5e0!3m2!1sen!2snp!4v1686130436489!5m2!1sen!2snp" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+<!-- Chatbot Button -->
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <button id="chatbot-btn" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer;">
+       Frequently Asked Questions
+    </button>
+</div>
+
+<!-- Chatbot Popup -->
+<div id="chatbot-popup" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 300px; background-color: white; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); z-index: 1001;">
+    <div style="background-color: #007bff; color: white; padding: 10px; border-top-left-radius: 10px; border-top-right-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
+        <span>FAQ</span>
+        <button id="close-chatbot" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">&times;</button>
+    </div>
+    <div style="padding: 10px;">
+        <div id="chatbot-messages" style="max-height: 300px; overflow-y: auto; margin-bottom: 10px;">
+            <!-- Predefined Questions -->
+            <div style="text-align: left;">
+                <p class="chatbot-question" data-answer="A stock is a type of security that signifies proportionate ownership in the issuing corporation."
+                    style="background-color: #5c5757; color: white; padding: 10px; border-radius: 10px; margin-bottom: 10px; box-shadow: -24px 9px 37px 0px #5c5757; cursor: pointer;">
+                    Q. What is stock?
+                </p>
+                <p class="chatbot-question" data-answer="R2 score is a statistical measure that represents the proportion of variance for a dependent variable that's explained by an independent variable. RMSE is the square root of the average of squared differences between prediction and actual observation."
+                     style="background-color: #5c5757; color: white; padding: 10px; border-radius: 10px; margin-bottom: 10px;box-shadow: -24px 9px 37px 0px #5c5757; cursor: pointer;">
+                    Q. What is R2 score and RMSE score?
+                </p>
+                <p class="chatbot-question" data-answer="The models used here are LSTM, GRU, and Random Forest."
+                     style="background-color: #5c5757; color: white; padding: 10px; border-radius: 10px; margin-bottom: 10px; box-shadow: -24px 9px 37px 0px #5c5757; cursor: pointer;">
+                    Q. Which models are used here?
+                </p>
+                <p class="chatbot-question" data-answer="After comparison, the LSTM model has shown the best result."
+                     style="background-color: #5c5757; color: white; padding: 10px; border-radius: 10px; margin-bottom: 10px; box-shadow: -24px 9px 37px 0px #5c5757; cursor: pointer;">
+                    Q. Which model has shown best result after comparison?
+                </p>
+                                <p class="chatbot-question" data-answer="You can obtain datas for 5years from https://nepsealpha.com/nepse-data or go to visualization page and click data"
+                                     style="background-color: #5c5757; color: white; padding: 10px; border-radius: 10px; margin-bottom: 10px; box-shadow: -24px 9px 37px 0px #5c5757; cursor: pointer;">
+                                    Q. Where can I get datas from? 
+                                </p>
+                <p class="chatbot-question" data-answer="Our team consists of data scientists, machine learning engineers, and financial analysts."
+                     style="background-color: #5c5757; color: white; padding: 10px; border-radius: 10px; margin-bottom: 10px; box-shadow: -24px 9px 37px 0px #5c5757; cursor: pointer;">
+                    Q. Team members
+                </p>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+<script>
+// Toggle Chatbot Popup
+document.getElementById("chatbot-btn").addEventListener("click", function() {
+    document.getElementById("chatbot-popup").style.display = "block";
+});
+
+document.getElementById("close-chatbot").addEventListener("click", function() {
+    document.getElementById("chatbot-popup").style.display = "none";
+});
+
+// Function to display a message in the chatbot
+function displayMessage(message, align = 'left', isQuestion = false) {
+    const messageElement = document.createElement("div");
+    messageElement.textContent = message;
+    messageElement.style.textAlign = align;
+    messageElement.style.marginBottom = "10px";
+    messageElement.style.padding = "10px";
+    messageElement.style.borderRadius = "10px";
+    messageElement.style.display = "inline-block";
+    messageElement.style.maxWidth = "80%";
+    messageElement.style.boxShadow = "0px 4px 6px rgba(0, 0, 0, 0.1)";
+
+    if (isQuestion) {
+        messageElement.style.backgroundColor = "#007bff"; // Blue background for questions
+        messageElement.style.color = "white";
+        messageElement.style.alignSelf = "flex-end"; // Right-align for questions
+        messageElement.textContent = message;
+    } else {
+        messageElement.style.backgroundColor = "#f0f0f0"; // Grayish background for answers
+        messageElement.style.color = "black";
+        messageElement.style.alignSelf = "flex-start"; // Left-align for answers
+        messageElement.innerHTML = message;  // Use innerHTML to render HTML content
+    }
+    document.getElementById("chatbot-messages").appendChild(messageElement);
+
+    // Auto-scroll to the bottom of the messages
+    const messages = document.getElementById("chatbot-messages");
+    messages.scrollTop = messages.scrollHeight;
+}
+
+// Function to handle question click
+function handleQuestionClick(event) {
+    const question = event.target.textContent;
+
+    // Display the user's question
+    displayMessage(question, 'right', true);
+
+    // Send the question to the backend to get the dynamic answer
+    fetch('/chatbot/question/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'), // Add CSRF token
+        },
+        body: JSON.stringify({ question: question }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display the response from the backend
+        displayMessage(data.answer, 'left');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+// Add event listeners to predefined questions
+document.querySelectorAll(".chatbot-question").forEach(function(questionElement) {
+    questionElement.addEventListener("click", handleQuestionClick);
+});
+
+// Get CSRF token function (if CSRF protection is enabled)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+
+{% endblock %}
+

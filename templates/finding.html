@@ -1,0 +1,2893 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<section class="breadcrumbs" style="position: relative; height:20vh; padding: 10px 0;">
+    <div class="container">
+        <nav id="navbar" class="navbar bg-light navbar-light" style="position: relative;">
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Agricultural Development Bank Limited">
+                <a class="nav-link scrollto" href="#adbl">ADBL</a>
+            </li>
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Everest Bank Limited">
+                <a class="nav-link" href="#ebl">EBL</a>
+            </li>
+            <li class="nav-item" style="position: relative;">
+                <a class="nav-link" href="#" id="nblLink">NBL</a>
+                <!-- Subfields for NBL -->
+                <div class="subfields" style="display: none; position: absolute; background-color: black; border: 1px solid white; z-index: 1050; top: 100%; left: 0; padding: 10px;">
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin: 0; border-bottom: 1px solid #333;">
+                            <a href="#nbl" style="color: white; text-decoration: none; display: block;border: 1px solid white; padding: 5px 10px;">NBL</a>
+                        </li>
+                        <li style="margin: 0; border-bottom: 1px solid #333;">
+                            <a href="#nbl(10)" style="color: white; text-decoration: none; display: block; border: 1px solid white;padding: 5px 10px;">NBL (10 years)</a>
+                        </li>
+                        <li style="margin: 0;">
+                            <a href="#nbl(15)" style="color: white; text-decoration: none; display: block; border: 1px solid white;padding: 5px 10px;">NBL (15 years)</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Standard Chartered Bank Limited">
+                <a class="nav-link" href="#scbl">SCBL</a>
+            </li>
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nepal SBI">
+                <a class="nav-link" href="#sbi">SBI</a>
+            </li>
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Upper Tamakoshi Hydropower Ltd">
+                <a class="nav-link" href="#upper">UPPER</a>
+            </li>
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chilime Hydropower Company Limited">
+                <a class="nav-link" href="#chcl">CHCL</a>
+            </li>
+        </nav>
+    </div>
+</section>
+
+<script>
+    document.getElementById('nblLink').addEventListener('mouseover', function() {
+        document.querySelector('.subfields').style.display = 'block';
+    });
+
+    document.querySelector('.subfields').addEventListener('mouseleave', function() {
+        this.style.display = 'none';
+    });
+</script>
+
+
+
+<section class="inner-page">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2 id="adbl">ADBL</h2>
+        </div>
+
+        <div class="container">
+            <h2>Model Comparison of Agricultural Development Bank Limited (ADBL) of 7 days</h2>
+        
+            <table >
+                <tr>
+                    <th>Metric</th>
+                    <th>Random Forest (RF)</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>5.74</td>
+                    <td>22.13</td>
+                    <td>20.31</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>10.14</td>
+                    <td>7.67</td>
+                    <td>7.31</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.99</td>
+                    <td>0.91</td>
+                    <td>0.92</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>0.28</td>
+                    <td>0.58</td>
+                    <td>0.62</td>
+                </tr>
+             
+            </table>
+            
+        
+            <h2>Predicted Prices (May 3, 2024 - May 9, 2024) 7 days</h2>
+            <div id="price-chart">
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> RF performs significantly better than LSTM and GRU on the training set.
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> GRU has the lowest Test RMSE, indicating better performance on unseen data compared to LSTM and RF.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF has the highest R2 on the training set, showing it fits the training data very well.
+                </p>
+                <p>
+                    <strong>Test R2:</strong> GRU has the highest Test R2, indicating it captures the variability in the unseen data better than the other models.
+                </p>
+                <p>
+                    In conclusion, while the RF model fits the training data best, the GRU model provides the most accurate predictions on the test set, as indicated by its lower Test RMSE, higher Test R2. "In this analysis, we employed a dropout rate of 0.2 for the neural network models (LSTM and GRU), which helped mitigate overfitting during training. This dropout rate can be further fine-tuned to potentially enhance model performance, ensuring better generalization on unseen data."
+
+                
+                </p>
+            </div>
+        </div>
+        
+        <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+        <table border="1"  style="width:100%; text-align: center; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Actual Price</th>
+                    <th>LSTM Price</th>
+                    <th>GRU Price</th>
+                    <th>RF Price</th>
+                    <th>LSTM Error (%)</th>
+                    <th>GRU Error (%)</th>
+                    <th>RF Error (%)</th>
+                </tr>
+            </thead>
+            <tbody id="price-table-body"></tbody>
+        </table>
+        <script>
+            var dates = ['2024-05-03', '2024-05-04', '2024-05-05', '2024-05-06', '2024-05-07', '2024-05-08', '2024-05-09'];
+            var actual_prices = [241, 239, 239, 235.5, 237.1, 233, 239];
+        
+        var rf_prices = [238.79, 237.40, 236.45, 236.41, 236.08, 236.03, 235.25];
+        var lstm_prices = [235.49, 235.49, 233.37, 232.29, 233.53, 233.50, 231.79];
+        var gru_prices = [234.96, 236.24, 232.13, 231.62, 232.85, 235.20, 234.69];
+        
+        var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices for ADBL (May 3, 2024 - May 9, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart', data, layout);
+        
+        
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+
+        <div class="container">
+            <h2>Model Comparison of Agricultural Development Bank Limited of 14 Days (ADBL)</h2>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                    <th>Random Forest (RF)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>26.19</td>
+                    <td>26.18</td>
+                    <td>6.42</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>8.78</td>
+                    <td>9.40</td>
+                    <td>12.38</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.88</td>
+                    <td>0.88</td>
+                    <td>0.99</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>0.45</td>
+                    <td>0.36</td>
+                    <td>-0.10</td>
+                </tr>
+                <tr>
+
+            </table>
+            
+
+            
+
+            <h2>Predicted Prices (May 3, 2024 - May 16, 2024) 14 days</h2>
+            <div id="price-chart1"></div>
+
+            
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong>  Random Forest (RF) has a significantly lower Train RMSE compared to LSTM and GRU, indicating better performance on the training set.
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> LSTM has the lowest Test RMSE, suggesting better performance on unseen data compared to GRU and RF.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF exhibits the highest R2 on the training set, indicating a better fit to the training data compared to LSTM and GRU.
+                </p>
+                <p>
+                    <strong>Test R2:</strong> Despite its lower Test RMSE, LSTM has a higher Test R2 than GRU, indicating better performance in capturing the variability in the unseen data.
+                </p>
+
+                <p>
+                    In conclusion, while Random Forest performs best on the training set, LSTM performs better on the test set in terms of RMSE, R2. However, LSTM and GRU outperform Random Forest in terms of R2 on the test set. It seems that LSTM and GRU models generalize better to unseen data compared to Random Forest.
+                    <br>When the test R2 value is negative, it indicates that the chosen model performs worse than a horizontal line through the data's mean. In other words, the model's predictions are so poor that it would be more accurate to simply use the mean of the target variable as the prediction for every data point. A negative R2 suggests that the model's predictions are essentially arbitrary or worse than no model at all. In this specific case, where the test R2 for the Random Forest model is negative (-0.1095), it implies that the model is not effectively capturing the variance in the test data and is performing poorly in terms of explaining the variability in the target variable. This negative value underscores the limitations of the model and highlights the need for further improvement or alternative modeling approaches.
+                </p>
+            </div>
+            
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"    style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body2"></tbody>
+                </table>
+        <script>
+            var dates = ['2024-05-03', '2024-05-04', '2024-05-05', '2024-05-06', '2024-05-07', '2024-05-08', '2024-05-09', '2024-05-10', '2024-05-11', '2024-05-12', '2024-05-13', '2024-05-14', '2024-05-15', '2024-05-16'];
+            var actual_prices = [241, 239, 239, 235.5, 237.1, 233, 239,239,245,245,244,241.1,254,261.1];
+            var lstm_prices = [234.50, 236.69, 234.17, 229.93, 232.47, 230.23, 231.48, 231.68, 232.34, 234.94, 235.75, 229.66, 230.82, 234.11];
+            var gru_prices = [229.66, 230.30, 232.04, 229.47, 236.28, 228.40, 228.62, 229.06, 231.67, 231.41, 230.88, 229.01, 229.02, 225.55];
+            var rf_prices = [241.40, 239.17, 237.16, 237.19, 236.70, 235.78, 234.87, 234.61, 234.38, 234.13, 233.61, 232.06, 231.69, 231.37];
+        
+            var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices for ADBL (May 3, 2024 - May 16, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart1', data, layout);
+        
+       
+        
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body2');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+        <div class="container">
+            <h2>Model Comparison of Agricultural Development Bank Limited (ADBL) of 60 days</h2>
+            <table >
+                <tr>
+                    <th>Metric</th>
+                    <th>LSTM</th>
+                    <th>GRU</th>
+                    <th>Random Forest (RF)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>40.73</td>
+                    <td>43.90</td>
+                    <td>5.88</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>18.02</td>
+                    <td>17.75</td>
+                    <td>62.63</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.65</td>
+                    <td>0.62</td>
+                    <td>0.99</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>-1.27</td>
+                    <td>-3.60</td>
+                    <td>-48.25</td>
+                </tr>
+
+            </table>
+
+            
+            
+            
+        
+            <h2>Predicted Prices (February 2, 2024 - April 1, 2024) 60 days</h2>
+            <div id="price-chart2"></div>
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> RF has the lowest train RMSE, indicating the best fit to the training data, while LSTM has the highest among the neural network models (LSTM and GRU).
+
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> GRU performs slightly better than LSTM in terms of test RMSE, with both neural network models outperforming RF, which indicates overfitting in the RF model.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF has the highest R² value for the training set, indicating it explains most of the variance in the training data, while both LSTM and GRU have lower R² values.
+
+                </p>
+                <p>
+                    <strong>Test R2:</strong> Higher (closer to 1) values are better. All models perform poorly on the Test R2 metric, but the LSTM model performs relatively better.
+
+                </p>
+    
+                <p>
+                    Considering all five metrics, the LSTM model seems to be the best overall performer on unseen data, followed by the GRU model in terms of Test RMSE and the Random Forest model in terms of Test R2 (although all models perform poorly on this metric). However, it's essential to consider other factors such as model complexity, computational resources, and interpretability when choosing the best model for your specific problem.
+
+              
+                </p>
+            </div>
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"  style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body3"></tbody>
+                </table>
+        <script>
+            var dates = ["2024-02-02", "2024-02-03", "2024-02-04", "2024-02-05", "2024-02-06", "2024-02-07", "2024-02-08", "2024-02-09", "2024-02-10", "2024-02-11", "2024-02-12", "2024-02-13", "2024-02-14", "2024-02-15", "2024-02-16", "2024-02-17", "2024-02-18", "2024-02-19", "2024-02-20", "2024-02-21", "2024-02-22", "2024-02-23", "2024-02-24", "2024-02-25", "2024-02-26", "2024-02-27", "2024-02-28", "2024-02-29", "2024-03-01", "2024-03-02", "2024-03-03", "2024-03-04", "2024-03-05", "2024-03-06", "2024-03-07", "2024-03-08", "2024-03-09", "2024-03-10", "2024-03-11", "2024-03-12", "2024-03-13", "2024-03-14", "2024-03-15", "2024-03-16", "2024-03-17", "2024-03-18", "2024-03-19", "2024-03-20", "2024-03-21", "2024-03-22", "2024-03-23", "2024-03-24", "2024-03-25", "2024-03-26", "2024-03-27", "2024-03-28", "2024-03-29", "2024-03-30", "2024-03-31", "2024-04-01"];
+
+           var lstm_prices = [
+    239.47, 243.71, 247.65, 243.94, 244.38, 248.17, 251.44, 246.56, 
+    247.99, 250.88, 241.75, 249.03, 245.84, 247.67, 248.68, 248.92, 
+    249.01, 245.58, 248.01, 245.45, 248.61, 250.31, 248.91, 251.83, 
+    250.26, 246.27, 249.66, 245.66, 243.20, 249.30, 253.40, 248.45, 
+    248.63, 245.69, 249.98, 248.59, 247.56, 250.78, 248.08, 249.32, 
+    248.91, 251.50, 255.90, 250.33, 248.29, 247.69, 253.04, 244.98, 
+    244.18, 251.77, 246.71, 250.50, 250.01, 251.17, 249.65, 244.82, 
+    249.50, 249.71, 249.75, 252.87
+];
+
+var gru_prices = [
+    251.61, 250.62, 253.19, 247.98, 249.17, 246.97, 243.56, 250.62, 
+    247.14, 245.88, 263.32, 252.23, 251.96, 238.82, 250.52, 252.45, 
+    257.46, 246.52, 241.52, 246.69, 245.22, 248.80, 248.03, 242.56, 
+    255.25, 248.15, 249.70, 247.77, 240.44, 249.62, 253.54, 252.47, 
+    251.42, 252.66, 250.38, 254.57, 248.75, 252.77, 248.68, 244.13, 
+    251.69, 250.69, 247.79, 247.88, 257.83, 252.22, 252.71, 251.10, 
+    254.12, 259.25, 244.88, 241.98, 243.68, 251.71, 254.14, 250.26, 
+    259.85, 246.24, 254.97, 246.58
+];
+
+var rf_prices = [
+    316.28, 316.15, 316.62, 316.71, 316.52, 316.12, 315.37, 314.57, 
+    313.43, 312.96, 312.71, 312.15, 311.48, 310.53, 310.14, 309.24, 
+    309.08, 308.49, 309.65, 311.45, 313.12, 315.21, 317.25, 319.31, 
+    321.19, 324.22, 327.16, 329.49, 332.28, 333.69, 334.14, 333.18, 
+    332.66, 331.36, 327.91, 324.58, 321.52, 319.15, 315.57, 312.95, 
+    310.89, 308.60, 306.81, 304.88, 303.57, 303.36, 303.40, 304.12, 
+    303.21, 302.95, 302.04, 301.42, 299.95, 299.09, 297.16, 295.11, 
+    293.23, 292.01, 290.04, 288.20
+];
+
+            var actual_prices = [
+                240.5, 240.5, 242, 240.7, 241, 242, 236.8, 238, 231.3, 233, 236.7, 230.6, 230, 230.3, 229, 227.1, 228, 227, 228, 225.8, 224, 237.4, 229.5, 228.3, 228.1, 231, 239.7, 236, 233.5, 235, 235, 234.5, 235, 233.5, 233.5, 230.1, 230, 228, 228, 227.5, 227, 226.1, 225, 223.6, 223.4, 233, 229.4, 229.5, 230, 235.5, 236.2, 240, 241, 239, 235.5, 237.1, 233, 239, 239, 245, 245, 244, 241.1, 254, 261.1, 261.5, 280, 277.5, 277, 270, 261, 265, 262
+            ];
+
+                 
+            var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices for ADBL (February 2, 2024 - April 1, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart2', data, layout);
+        
+        
+        
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body3');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+
+        <div class="section-title" data-aos="fade-up">
+            <h2 id="ebl">EBL</h2>
+        </div>
+        <div class="container">
+            <h2>Model Comparison of Everest Bank Limited (EBL) of 7 days</h2>
+        
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                    <th>Random Forest (RF)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>38.29</td>
+                    <td>27.14</td>
+                    <td>9.12</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>27.54</td>
+                    <td>20.08</td>
+                    <td>23.44</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.87</td>
+                    <td>0.93</td>
+                    <td>0.99</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>0.66</td>
+                    <td>0.82</td>
+                    <td>0.75</td>
+                </tr>
+                <tr>
+  
+            </table>
+            
+            
+        
+            <h2>Predicted Prices (February 2, 2024 - February 8, 2024) 7 days</h2>
+            <div id="price-chart3"></div>
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> Random Forest (RF) has the lowest Train RMSE, indicating it fits the training data the best, followed by GRU and then LSTM.
+                    RF's Train RMSE of 9.125 is significantly lower than GRU's (27.144) and LSTM's (38.300).
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong>GRU performs the best on the test set with the lowest Test RMSE (20.089), followed by RF (23.442) and then LSTM (27.543).
+                    GRU's superior performance on unseen data is evident, indicating better generalization compared to LSTM and RF.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF achieves the highest Train R2, indicating it explains the variance in the training data the best.
+                    LSTM and GRU follow RF, with GRU slightly outperforming LSTM in explaining the variability in the training data.
+                </p>
+                <p>
+                    <strong>Test R2:</strong>GRU again leads in Test R2, suggesting it captures the variability in the unseen data better than LSTM and RF.
+                    RF has the lowest Test R2 among the models, indicating it performs relatively poorer on the test data compared to its performance on the training data.
+                </p>
+
+                <p>
+                    In summary, while Random Forest performs exceptionally well on the training data, GRU demonstrates superior performance on the test set, outperforming both LSTM and RF in terms of Test RMSE, Test R2
+                    . This indicates GRU's better ability to generalize to unseen data. However, further analysis may be warranted to understand the specific strengths and weaknesses of each model and to explore potential avenues for improvement.
+
+                   
+                </p>
+            </div>
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"    style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body4"></tbody>
+                </table>
+        <script>
+            var dates = ["2024-02-02", "2024-02-03", "2024-02-04", "2024-02-05", "2024-02-06", "2024-02-07", "2024-02-08"];
+
+            var actual_prices = [527, 528.1, 528, 529, 533.9, 527.5, 525];
+
+var rf_prices = [525.50, 528.62, 537.15, 547.29, 550.38, 554.65, 557.90];
+
+var lstm_prices = [530.72, 529.94, 529.15, 531.33, 531.38, 530.83, 532.47];
+
+var gru_prices = [528.71, 530.32, 527.86, 524.80, 524.14, 526.04, 525.39];
+
+        var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices for ADBL (February 2, 2024 - February 8, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart3', data, layout);
+                
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body4');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+        <div class="container">
+            <h2>Model Comparison of Everest Bank Limited (EBL) of 30 days</h2>
+            <table  border="1">
+                <tr>
+                    <th>Metric</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                    <th>Random Forest (RF)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>55.91</td>
+                    <td>50.11</td>
+                    <td>11.68</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>46.68</td>
+                    <td>45.13</td>
+                    <td>46.22</td>
+                </tr>
+                <tr>
+                    <td>Train R²</td>
+                    <td>0.74</td>
+                    <td>0.79</td>
+                    <td>0.98</td>
+                </tr>
+                <tr>
+                    <td>Test R²</td>
+                    <td>0.08</td>
+                    <td>0.23</td>
+                    <td>0.19</td>
+                </tr>
+
+            </table>
+        
+            <h2>Predicted Prices (February 2, 2024 - March 2, 2024) 30 days</h2>
+            <div id="price-chart4"></div>
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> Random Forest (RF) has the lowest Train RMSE (11.686), indicating it fits the training data the best, followed by GRU (50.116) and then LSTM (55.910). RF's significantly lower Train RMSE suggests it is much better at capturing patterns in the training data compared to the other models.
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong>GRU performs the best on the test set with the lowest Test RMSE (45.137), followed closely by RF (46.226), and then LSTM (46.689). GRU's lower Test RMSE indicates it generalizes better to unseen data compared to LSTM and RF.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> Random Forest (RF) achieves the highest Train R² (0.989), indicating it explains the variance in the training data the best. GRU follows with a Train R² of 0.798, and LSTM has the lowest Train R² (0.742). This suggests RF is better at capturing the variability in the training data.
+                </p>
+                <p>
+                    <strong>Test R2:</strong>GRU leads in Test R² (0.232), suggesting it captures the variability in the unseen data better than LSTM (0.081) and RF (0.193). While RF has a higher Train R², its Test R² indicates it might be overfitting the training data and not generalizing as well.
+                </p>
+
+                <p>
+                    In conclusion, while Random Forest performs exceptionally well on the training data, GRU's superior performance on the test data makes it the better model for generalization. Further analysis may be warranted to understand the specific strengths and weaknesses of each model and to explore potential avenues for improvement.
+
+                  
+                </p>
+            </div>
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"  style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body5"></tbody>
+                </table>
+        <script>
+            var dates = ["2024-02-02", "2024-02-03", "2024-02-04", "2024-02-05", "2024-02-06", "2024-02-07", "2024-02-08", "2024-02-09", "2024-02-10", "2024-02-11", "2024-02-12", "2024-02-13", "2024-02-14", "2024-02-15", "2024-02-16", "2024-02-17", "2024-02-18", "2024-02-19", "2024-02-20", "2024-02-21", "2024-02-22", "2024-02-23", "2024-02-24", "2024-02-25", "2024-02-26", "2024-02-27", "2024-02-28", "2024-02-29", "2024-03-01", "2024-03-02"];
+var lstm_prices = [531.95, 529.09, 536.15, 536.61, 540.83, 537.69, 535.68, 543.71, 544.11, 535.96, 536.07, 534.12, 534.83, 533.89, 542.49, 526.92, 532.84, 536.96, 536.21, 533.50, 542.54, 524.74, 540.41, 545.58, 530.40, 530.53, 532.57, 534.35, 538.52, 535.88];
+
+var actual_prices = [528.10, 528.00, 529.00, 533.90, 527.50, 521.40, 525.00, 521.00, 527.00, 522.00, 519.00, 518.00, 516.00, 512.30, 499.00, 502.00, 510.00, 502.40, 499.10, 494.00, 524.00, 507.80, 509.00, 508.00, 513.90, 526.00, 522.00, 517.00, 516.00, 517.00, 514.10, 513.10, 503.00];
+
+var rf_prices = [549.25, 546.84, 541.89, 539.94, 539.02, 537.81, 537.06, 534.93, 532.63, 531.69, 529.63, 525.59, 524.77, 523.87, 522.57, 521.14, 522.08, 524.27, 526.70, 530.69, 536.53, 539.90, 542.50, 546.07, 551.94, 557.31, 559.30, 561.07, 564.64, 564.69];
+
+var gru_prices = [526.63, 523.21, 524.91, 527.35, 524.84, 529.29, 530.93, 530.98, 526.00, 527.06, 525.34, 526.53, 524.89, 526.70, 528.06, 526.01, 525.75, 525.63, 524.44, 526.08, 526.87, 523.97, 526.56, 526.83, 528.85, 529.46, 529.49, 526.82, 528.27, 529.50];
+
+        var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices for ADBL (February 2, 2024 - March 2, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart4', data, layout);
+                
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body5');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+    
+        <div class="section-title" data-aos="fade-up">
+            <h2 id="nbl">NBL</h2>
+        </div>
+        <div class="container">
+            <h2>Model Comparison of Nepal Bank Limited (NBL) of 7 days</h2>
+        
+            
+            <table >
+                <tr>
+                    <th>Metric</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                    <th>Random Forest (RF)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>19.67</td>
+                    <td>17.99</td>
+                    <td>5.39</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>6.43</td>
+                    <td>5.92</td>
+                    <td>28.88</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.92</td>
+                    <td>0.94</td>
+                    <td>0.99</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>0.85</td>
+                    <td>0.87</td>
+                    <td>-1.94</td>
+                </tr>
+
+            </table>
+            
+            <h2>Predicted Prices (May 27, 2024 - June 5, 2024) 7 days</h2>
+            <div id="price-chart5"></div>
+            
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> Random Forest (RF) has the lowest Train RMSE, indicating it fits the training data the best, followed by GRU and then LSTM.
+                    RF's Train RMSE of 5.3991 is significantly lower than GRU's (17.9969) and LSTM's (19.6704).
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> GRU performs the best on the test set with the lowest Test RMSE (5.9237), followed by LSTM (6.4375) and then RF (28.8840).
+                    GRU's superior performance on unseen data is evident, indicating better generalization compared to LSTM and RF.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF achieves the highest Train R2, indicating it explains the variance in the training data the best.
+                    LSTM and GRU follow RF, with GRU slightly outperforming LSTM in explaining the variability in the training data.
+                </p>
+                <p>
+                    <strong>Test R2:</strong> GRU again leads in Test R2, suggesting it captures the variability in the unseen data better than LSTM and RF.
+                    RF has the lowest Test R2 among the models, indicating it performs relatively poorer on the test data compared to its performance on the training data.
+                </p>
+                
+                <p>
+                    In summary, while Random Forest performs exceptionally well on the training data, GRU demonstrates superior performance on the test set, outperforming both LSTM and RF in terms of Test RMSE, Test R2. This indicates GRU's better ability to generalize to unseen data. However, further analysis may be warranted to understand the specific strengths and weaknesses of each model and to explore potential avenues for improvement.
+            
+                   
+                </p>
+            </div>
+
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"  style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body6"></tbody>
+                </table>
+        <script>
+        var dates = ["2024-05-27", "2024-05-29", "2024-05-30", "2024-06-02", "2024-06-03", "2024-06-04", "2024-06-05"];
+        
+        var actual_prices = [226, 216.5, 213, 214, 212.5, 212.9, 209];
+        
+        var rf_prices = [253.37, 259.49, 262.72, 263.71, 264.43, 262.97, 262.38];
+        
+        var lstm_prices = [211.56, 209.63, 211.52, 210.74, 212.06, 211.60, 210.57];
+        
+        var gru_prices = [217.31, 216.02, 216.24, 218.44, 218.35, 216.77, 218.21];
+
+        
+        var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices (May 27, 2024 - June 5, 2024) 7 days',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart5', data, layout);
+                
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body6');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+        <div class="container">
+            <h2>Model Comparison of Nepal Bank Limited (NBL) of 30 days</h2>
+               <table  border="1">
+        <tr>
+            <th>Metric</th>
+            <th>Long Short-Term Memory (LSTM)</th>
+            <th>Gated Recurrent Unit (GRU)</th>
+            <th>Random Forest (RF)</th>
+        </tr>
+        <tr>
+            <td>Train RMSE</td>
+            <td>31.9371</td>
+            <td>29.6293</td>
+            <td>6.3613</td>
+        </tr>
+        <tr>
+            <td>Test RMSE</td>
+            <td>7.6019</td>
+            <td>7.3699</td>
+            <td>56.5867</td>
+        </tr>
+        <tr>
+            <td>Train R2</td>
+            <td>0.8145</td>
+            <td>0.8448</td>
+            <td>0.9928</td>
+        </tr>
+        <tr>
+            <td>Test R2</td>
+            <td>0.6471</td>
+            <td>0.6578</td>
+            <td>-18.0031</td>
+        </tr>
+
+    </table>
+    
+    <h2>Predicted Prices (May 5, 2024 - June 5, 2024)</h2>
+    <div id="price-chart6"></div>
+
+    <div class="analysis">
+        <h3>Analysis</h3>
+        <p>
+            <strong>Train RMSE:</strong> Random Forest (RF) has the lowest Train RMSE, indicating it fits the training data the best, followed by GRU and then LSTM.
+            RF's Train RMSE of 6.3613 is significantly lower than GRU's (29.6293) and LSTM's (31.9371).
+        </p>
+        <p>
+            <strong>Test RMSE:</strong> GRU performs the best on the test set with the lowest Test RMSE (7.3699), followed by LSTM (7.6019)then RF (56.5867).
+            GRU's superior performance on unseen data is evident, indicating better generalization compared to LSTM and RF.
+        </p>
+        <p>
+            <strong>Train R2:</strong> RF achieves the highest Train R2, indicating it explains the variance in the training data the best.
+            LSTM and GRU follow RF, with GRU slightly outperforming LSTM in explaining the variability in the training data.
+        </p>
+        <p>
+            <strong>Test R2:</strong> GRU again leads in Test R2, suggesting it captures the variability in the unseen data better than LSTM and RF.
+            RF has the lowest Test R2 among the models, indicating it performs relatively poorly on the test data compared to its performance on the training data.
+        </p>
+
+        <p>
+            In summary, while Random Forest performs exceptionally well on the training data, GRU demonstrates superior performance on the test set, outperforming both LSTM and RF in terms of Test RMSE, Test R2 . This indicates GRU's better ability to generalize to unseen data. However, further analysis may be warranted to understand the specific strengths and weaknesses of each model and to explore potential avenues for improvement.
+        </p>
+    </div>
+            <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+            <table border="1"    style="width:100%; text-align: center; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Actual Price</th>
+                        <th>LSTM Price</th>
+                        <th>GRU Price</th>
+                        <th>RF Price</th>
+                        <th>LSTM Error (%)</th>
+                        <th>GRU Error (%)</th>
+                        <th>RF Error (%)</th>
+                    </tr>
+                </thead>
+                <tbody id="price-table-body7"></tbody>
+            </table>
+    <script>
+        var dates = ["2024-05-05", "2024-05-06", "2024-05-07", "2024-05-08", "2024-05-09", "2024-05-10", "2024-05-11", "2024-05-12", "2024-05-13", "2024-05-14", "2024-05-15", "2024-05-16", "2024-05-19", "2024-05-20", "2024-05-21", "2024-05-22", "2024-05-26", "2024-05-27", "2024-05-29", "2024-05-30", "2024-06-02", "2024-06-03", "2024-06-04", "2024-06-05"];
+var actual_prices = [198.50, 198.80, 197.00, 196.40, 208.00, 202.00, 206.80, 204.00, 203.50, 203.00, 231.80, 222.80, 209.40, 219.50, 222.80, 231.80, 227.00, 226.00, 216.50, 213.00, 214.00, 212.50, 212.90, 209.00];
+
+var lstm_prices = [202.91, 204.00, 206.19, 206.31, 203.26, 204.85, 206.04, 204.55, 204.30, 207.99, 208.33, 208.39, 205.34, 209.02, 203.92, 205.06, 208.77, 206.29, 206.54, 204.39, 206.17, 203.88, 206.17, 203.88];
+
+var gru_prices = [195.50, 193.93, 194.17, 195.58, 194.75, 191.57, 192.45, 192.52, 194.39, 195.01, 193.68, 192.75, 197.65, 195.75, 192.69, 196.93, 198.16, 198.16, 198.54, 200.28, 199.53, 198.03, 202.51, 198.03];
+
+var rf_prices = [262.57, 266.50, 268.19, 271.50, 274.08, 277.20, 279.31, 281.19, 281.90, 283.22, 284.01, 286.17, 288.67, 289.88, 291.43, 292.87, 299.46, 298.35, 303.53, 305.24, 310.91, 313.95, 317.24, 309.04];
+
+        var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+
+        var data = [trace0, trace1, trace2, trace3];
+
+        var layout = {
+            title: 'Predicted Prices (May 5, 2024 - June 5, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+
+        Plotly.newPlot('price-chart6', data, layout);
+                
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body7');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+    </script>
+
+<section class="inner-page">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2 id="scbl">SCBL</h2>
+        </div>
+
+        <div class="container">
+            <h2>Model Comparison of Standard Chartered Bank Limited (SCBL) of 7 days</h2>
+        
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Random Forest (RF)</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>7.43</td>
+                    <td>28.98</td>
+                    <td>26.36</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>16.54</td>
+                    <td>15.11</td>
+                    <td>13.87</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.99</td>
+                    <td>0.90</td>
+                    <td>0.91</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>0.13</td>
+                    <td>0.28</td>
+                    <td>0.39</td>
+                </tr>
+
+            </table>
+            
+        
+            <h2>Predicted Prices (Feb 5, 2024 -Feb 11, 2024) 7 days</h2>
+            <div id="price-chart7"></div>
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> RF performs significantly better than LSTM and GRU on the training set.
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> GRU has the lowest Test RMSE, indicating better performance on unseen data compared to LSTM and RF.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF has the highest R2 on the training set, showing it fits the training data very well.
+                </p>
+                <p>
+                    <strong>Test R2:</strong> GRU has the highest Test R2, indicating it captures the variability in the unseen data better than the other models.
+                </p>
+
+                <p>
+                    In conclusion, while the RF model fits the training data best, the GRU model provides the most accurate predictions on the test set, as indicated by its lower Test RMSE, higher Test R2, and lower Test  . "In this analysis, we employed a dropout rate of 0.2 for the neural network models (LSTM and GRU), which helped mitigate overfitting during training. This dropout rate can be further fine-tuned to potentially enhance model performance, ensuring better generalization on unseen data."
+
+               
+                </p>
+            </div>
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"  style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body8"></tbody>
+                </table>
+        <script>
+            var dates = ['2024-02-05', '2024-02-06', '2024-02-07', '2024-02-08', '2024-02-09', '2024-02-10', '2024-02-11'];
+            var actual_prices = [532.1, 533.4, 536, 535.1, 535.1, 533, 538];
+        
+        var rf_prices = [529.76, 528.69, 528.82, 529.67, 530.20, 529.0, 531.70];
+        var lstm_prices = [537.26, 537.01, 534.72, 535.46, 536.43, 536.84, 535.91];
+        var gru_prices = [536.50, 537.57, 539.88, 538.37, 536.65, 534.15, 539.60];
+        
+        var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices for SCBL (Feb 5, 2024 - Feb 11, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart7', data, layout);
+                
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body8');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+
+        <div class="container">
+            <h2>Model Comparison of Standard Chartered Bank Limited of 14 Days (SCBL)</h2>
+            <table >
+                <tr>
+                    <th>Metric</th>
+                    <th>Random Forest (RF)</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>8.62</td>
+                    <td>33.40</td>
+                    <td>30.66</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>25.14</td>
+                    <td>16.13</td>
+                    <td>5.15</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.99</td>
+                    <td>0.87</td>
+                    <td>0.89</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>-1.16</td>
+                    <td>0.17</td>
+                    <td>0.22</td>
+                </tr>
+
+            </table>
+            
+
+            
+
+            <h2>Predicted Prices (Feb 5, 2024 - Feb 11, 2024) 14 days</h2>
+            <div id="price-chart8"></div>
+
+            
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong>  Random Forest (RF) has a significantly lower Train RMSE compared to LSTM and GRU, indicating better performance on the training set.
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> LSTM has the lowest Test RMSE, suggesting better performance on unseen data compared to GRU and RF.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF exhibits the highest R2 on the training set, indicating a better fit to the training data compared to LSTM and GRU.
+                </p>
+                <p>
+                    <strong>Test R2:</strong> Despite its lower Test RMSE, LSTM has a higher Test R2 than GRU, indicating better performance in capturing the variability in the unseen data.
+                </p>
+
+                <p>
+                    In conclusion, while Random Forest performs best on the training set, LSTM performs better on the test set in terms of RMSE, R2. However, LSTM and GRU outperform Random Forest in terms of R2 on the test set. It seems that LSTM and GRU models generalize better to unseen data compared to Random Forest.
+                    <br>When the test R2 value is negative, it indicates that the chosen model performs worse than a horizontal line through the data's mean. In other words, the model's predictions are so poor that it would be more accurate to simply use the mean of the target variable as the prediction for every data point. A negative R2 suggests that the model's predictions are essentially arbitrary or worse than no model at all. In this specific case, where the test R2 for the Random Forest model is negative (-0.1095), it implies that the model is not effectively capturing the variance in the test data and is performing poorly in terms of explaining the variability in the target variable. This negative value underscores the limitations of the model and highlights the need for further improvement or alternative modeling approaches.
+                </p>
+            </div>
+            
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"   style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body9"></tbody>
+                </table>
+        <script>
+            var dates = ['2024-02-05', '2024-02-06', '2024-02-07', '2024-02-08', '2024-02-09', '2024-02-10', '2024-02-11', '2024-02-12', '2024-02-13', '2024-02-14', '2024-02-15', '2024-02-16', '2024-02-17', '2024-02-18'];
+            var actual_prices = [535.1, 535.1, 536, 533.4, 537.1, 533, 532.1,534,530.1,528.2,527.8,537.1,531,526.8];
+            var lstm_prices = [540.66, 541.70, 541.70, 541.48, 541.01, 540.73, 541.30,541.67, 542.03, 541.32, 537.65, 542.40, 540.26, 539.10];
+            var gru_prices = [530.27, 535.80, 533.96, 532.93, 534.35, 531.40, 531.90, 535.11,533.72, 536.12, 536.03, 536.94, 539.74, 538.46];
+            var rf_prices = [531.296, 532.94, 532.35, 533.63, 532.9, 532.49, 532.38, 532.20, 532.059, 532.025, 534.65, 537.13, 538.34, 535.74];
+        
+            var trace0 = {
+            x: dates,
+            y: actual_prices,
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices for SCBL (Feb 5, 2024 - Feb 18, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart8', data, layout);
+                
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body9');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+        <div class="container">
+            <h2>Model Comparison of Standard Chartered Bank Limited (SCBL) of 30 days</h2>
+            <table >
+                <tr>
+                    <th>Metric</th>
+                    <th>Random Forest (RF)</th>
+                    <th>LSTM</th>
+                    <th>GRU</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>8.82</td>
+                    <td>39.03</td>
+                    <td>38.74</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>38.11</td>
+                    <td>19.57</td>
+                    <td>18.88</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.99</td>
+                    <td>0.82</td>
+                    <td>0.82</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>-3.43</td>
+                    <td>-0.24</td>
+                    <td>-0.09</td>
+                </tr>
+
+            </table>
+
+            
+            
+            
+        
+            <h2>Predicted Prices (February 5, 2024 - March 5, 2024) 30 days</h2>
+            <div id="price-chart9"></div>
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> RF has the lowest train RMSE, indicating the best fit to the training data, while LSTM has the highest among the neural network models (LSTM and GRU).
+
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> GRU performs slightly better than LSTM in terms of test RMSE, with both neural network models outperforming RF, which indicates overfitting in the RF model.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF has the highest R² value for the training set, indicating it explains most of the variance in the training data, while both LSTM and GRU have lower R² values.
+
+                </p>
+                <p>
+                    <strong>Test R2:</strong> Higher (closer to 1) values are better. All models perform poorly on the Test R2 metric, but the LSTM model performs relatively better.
+
+                </p>
+
+                <p>
+                    Considering all five metrics, the LSTM model seems to be the best overall performer on unseen data, followed by the GRU model in terms of Test RMSE and the Random Forest model in terms of Test R2 (although all models perform poorly on this metric). However, it's essential to consider other factors such as model complexity, computational resources, and interpretability when choosing the best model for your specific problem.
+
+            
+                </p>
+            </div>
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"   style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body10"></tbody>
+                </table>
+        <script>
+            var dates = ["2024-02-05", "2024-02-06", "2024-02-07", "2024-02-08", "2024-02-09", "2024-02-10", "2024-02-11", "2024-02-12", "2024-02-13", "2024-02-14", "2024-02-15", "2024-02-16", "2024-02-17", "2024-02-18", "2024-02-19", "2024-02-20", "2024-02-21", "2024-02-22", "2024-02-23", "2024-02-24", "2024-02-25", "2024-02-26", "2024-02-27", "2024-02-28", "2024-02-29", "2024-03-01", "2024-03-02", "2024-03-02", "2024-03-03", "2024-03-04", "2024-03-05", "2024-03-05"];
+var lstm_prices = [
+    546.33, 539.90, 538.64, 545.17, 544.33, 542.67, 541.89, 539.39, 543.08, 538.94, 544.48, 544.03, 541.63, 
+    540.68, 535.84, 542.85, 542.23, 542.09, 541.72, 540.46, 543.70, 540.10, 540.92, 540.18, 537.15, 534.63, 
+    536.19, 537.23, 534.61, 535.17
+];
+
+var gru_prices = [
+    531.43, 532.95, 533.67, 534.98, 534.47, 532.15, 534.24, 534.46, 534.98, 536.41, 536.53, 537.80, 537.72, 
+    537.29, 537.19, 538.35, 534.42, 535.84, 536.16, 532.11, 531.86, 533.52, 533.61, 532.44, 533.63, 536.19, 
+    531.16, 530.73, 533.69, 530.89
+];
+
+var rf_prices = [
+    533.97, 534.19, 535.38, 537.36, 537.58, 538.55, 542.42, 537.63, 537.64, 537.94, 537.80, 536.65, 533.60, 
+    528.64, 525.99, 521.11, 520.13, 518.63, 515.60, 515.76, 515.71, 514.19, 513.89, 515.24, 515.67, 514.70, 
+    515.33, 515.05, 516.26, 518.28
+];
+
+
+            var actual_prices = [
+                535.1, 536.0, 533.4, 532.1, 534.0, 530.1, 528.2, 527.8, 526.0, 523.9,
+                521.0, 513.1, 510.0, 509.0, 509.0, 508.0, 505.0, 503.0, 525.0, 517.6,
+                519.0, 521.0, 521.3, 539.6, 536.0, 526.0, 528.0, 527.0, 523.0, 524.0
+            ]
+           
+            
+            var trace0 = {
+            x: dates,
+            y: actual_prices,
+
+
+            mode: 'lines+markers',
+            name: 'Actual Prices'
+        };
+        
+        var trace1 = {
+            x: dates,
+            y: rf_prices,
+            mode: 'lines+markers',
+            name: 'RF Predicted Prices'
+        };
+        
+        var trace2 = {
+            x: dates,
+            y: lstm_prices,
+            mode: 'lines+markers',
+            name: 'LSTM Predicted Prices'
+        };
+        
+        var trace3 = {
+            x: dates,
+            y: gru_prices,
+            mode: 'lines+markers',
+            name: 'GRU Predicted Prices'
+        };
+        
+        var data = [trace0, trace1, trace2, trace3];
+        
+        var layout = {
+            title: 'Predicted Prices for SCBL (February 5, 2024 - March 5, 2024)',
+            xaxis: {
+                title: 'Date'
+            },
+            yaxis: {
+                title: 'Price (Rs)'
+            }
+        };
+        
+        Plotly.newPlot('price-chart9', data, layout);
+                
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body10');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+        </div>
+</section>
+<section class="inner-page">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2 id="sbi">SBI</h2>
+        </div>
+
+        <div class="container">
+            <h2>Model Comparison of Nepal SBI  of 7 days</h2>
+        
+            <table >
+                <tr>
+                    <th>Metric</th>
+                    <th>Random Forest (RF)</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>5.3979</td>
+                    <td>19.3101</td>
+                    <td>16.3917</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>12.4184</td>
+                    <td>12.6981</td>
+                    <td>11.4537</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.9913</td>
+                    <td>0.8885</td>
+                    <td>0.9196</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>0.5414</td>
+                    <td>0.5190</td>
+                    <td>0.6093</td>
+                </tr>
+
+            </table>
+            
+        
+            <h2>Predicted Prices (Feb 5, 2024 -Feb 11, 2024) 7 days</h2>
+            <div id="price-chart10"></div>
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> RF performs significantly better than LSTM and GRU on the training set.
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> GRU has the lowest Test RMSE, indicating better performance on unseen data compared to LSTM and RF.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF has the highest R2 on the training set, showing it fits the training data very well.
+                </p>
+                <p>
+                    <strong>Test R2:</strong> GRU has the highest Test R2, indicating it captures the variability in the unseen data better than the other models.
+                </p>
+
+                <p>
+                    In conclusion, while the RF model fits the training data best, the GRU model provides the most accurate predictions on the test set, as indicated by its lower Test RMSE, higher Test R2, and lower Test  . "In this analysis, we employed a dropout rate of 0.2 for the neural network models (LSTM and GRU), which helped mitigate overfitting during training. This dropout rate can be further fine-tuned to potentially enhance model performance, ensuring better generalization on unseen data."
+
+                
+                </p>
+            </div>
+        </div>
+                <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+                <table border="1"  style="width:100%; text-align: center; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Actual Price</th>
+                            <th>LSTM Price</th>
+                            <th>GRU Price</th>
+                            <th>RF Price</th>
+                            <th>LSTM Error (%)</th>
+                            <th>GRU Error (%)</th>
+                            <th>RF Error (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="price-table-body11"></tbody>
+                </table>
+        <script>
+            var dates = ['2024-02-05', '2024-02-06', '2024-02-07', '2024-02-08', '2024-02-09', '2024-02-10', '2024-02-11'];
+var actual_prices = [292.90, 290.00, 293.00, 290.60, 290.00, 289.00, 291.00];
+
+var rf_prices = [290.58, 287.69, 287.02, 286.37, 284.37, 283.26, 285.18];
+
+var lstm_prices = [298.58, 298.20, 298.95, 301.27, 300.08, 297.33, 299.77];
+
+var gru_prices = [294.74, 294.71, 294.26, 294.22, 295.51, 295.20, 296.36];
+
+            var trace0 = {
+                x: dates,
+                y: actual_prices,
+                mode: 'lines+markers',
+                name: 'Actual Prices'
+            };
+        
+            var trace1 = {
+                x: dates,
+                y: rf_prices,
+                mode: 'lines+markers',
+                name: 'RF Predicted Prices'
+            };
+        
+            var trace2 = {
+                x: dates,
+                y: lstm_prices,
+                mode: 'lines+markers',
+                name: 'LSTM Predicted Prices'
+            };
+        
+            var trace3 = {
+                x: dates,
+                y: gru_prices,
+                mode: 'lines+markers',
+                name: 'GRU Predicted Prices'
+            };
+        
+            var data = [trace0, trace1, trace2, trace3];
+        
+            var layout = {
+                title: 'Predicted Prices for Nepal SBI (Feb 5, 2024 - Feb 11, 2024)',
+                xaxis: {
+                    title: 'Date'
+                },
+                yaxis: {
+                    title: 'Price (Rs)'
+                }
+            };
+        
+            Plotly.newPlot('price-chart10', data, layout);
+                    
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body11');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+
+        <div class="container">
+            <h2>Model Comparison of Nepal SBI of 14 Days </h2>
+            <table  >
+                <tr>
+                    <th>Metric</th>
+                    <th>Random Forest (RF)</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>6.16</td>
+                    <td>22.85</td>
+                    <td>21.12</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>15.77</td>
+                    <td>13.73</td>
+                    <td>13.11</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.98</td>
+                    <td>0.84</td>
+                    <td>0.86</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>0.37</td>
+                    <td>0.43</td>
+                    <td>0.50</td>
+                </tr>
+
+            </table>
+        
+            <h2>Predicted Prices (Feb 5, 2024 -Feb 18, 2024) 14 days</h2>
+            <div id="price-chart11"></div>
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p> 
+                    <strong>Train RMSE:</strong> Similar to the 7-day prediction, RF performs significantly better than LSTM and GRU on the training set.
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> Again, GRU has the lowest Test RMSE, indicating better performance on unseen data compared to LSTM and RF for the 14-day prediction.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF has the highest R2 on the training set, showing it fits the training data very well, as observed previously.
+                </p>
+                <p>
+                    <strong>Test R2:</strong> GRU continues to have the highest Test R2, indicating better capture of the variability in the unseen data compared to the other models.
+                </p>
+
+                <p>
+                    Again, in this analysis, GRU provides the most accurate predictions on the test set, as indicated by its lower Test RMSE, higher Test R2, and lower Test  .
+                </p>
+            </div>
+        </div>
+        <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+        <table border="1"   style="width:100%; text-align: center; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Actual Price</th>
+                    <th>LSTM Price</th>
+                    <th>GRU Price</th>
+                    <th>RF Price</th>
+                    <th>LSTM Error (%)</th>
+                    <th>GRU Error (%)</th>
+                    <th>RF Error (%)</th>
+                </tr>
+            </thead>
+            <tbody id="price-table-body12"></tbody>
+        </table>
+        <script>
+            var dates = ['2024-02-05', '2024-02-06', '2024-02-07', '2024-02-08', '2024-02-09', '2024-02-10', '2024-02-11', '2024-02-12', '2024-02-13', '2024-02-14', '2024-02-15', '2024-02-16', '2024-02-17', '2024-02-18'];
+var actual_prices = [292.90, 290.00, 293.00, 290.60, 290.00, 289.00, 291.00, 294.00, 297.00, 296.00, 295.00, 298.00, 298.00, 300.00];
+
+var rf_prices = [290.78, 288.86, 288.76, 286.24, 281.98, 280.26, 280.42, 280.59, 281.32, 283.21, 285.32, 286.00, 286.81, 289.27];
+var lstm_prices = [298.24, 300.17, 303.56, 300.29, 301.60, 301.36, 304.92, 303.99, 299.87, 301.34, 299.88, 300.54, 299.90, 300.27];
+var gru_prices = [295.46, 294.15, 295.37, 296.47, 298.28, 297.07, 298.07, 296.40, 296.82, 299.40, 299.18, 299.30, 298.52, 299.25];
+
+            var trace4 = {
+                x: dates,
+                y: actual_prices,
+                mode: 'lines+markers',
+                name: 'Actual Prices'
+            };
+
+            var trace5 = {
+                x: dates,
+                y: rf_prices,
+                mode: 'lines+markers',
+                name: 'RF Predicted Prices'
+            };
+
+            var trace6 = {
+                x: dates,
+                y: lstm_prices,
+                mode: 'lines+markers',
+                name: 'LSTM Predicted Prices'
+            };
+
+            var trace7 = {
+                x: dates,
+                y: gru_prices,
+                mode: 'lines+markers',
+                name: 'GRU Predicted Prices'
+            };
+
+            var data = [trace4, trace5, trace6, trace7];
+
+            var layout = {
+                title: 'Predicted Prices for Nepal SBI (Feb 5, 2024 - Feb 18, 2024)',
+                xaxis: {
+                    title: 'Date'
+                },
+                yaxis: {
+                    title: 'Price (Rs)'
+                }
+            };
+
+            Plotly.newPlot('price-chart11', data, layout);
+                    
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body12');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+
+        <div class="container">
+            <h2>Model Comparison of Nepal SBI of 30 Days </h2>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Random Forest (RF)</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>7.54</td>
+                    <td>24.23</td>
+                    <td>22.83</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>18.56</td>
+                    <td>14.44</td>
+                    <td>15.15</td>
+                </tr>
+                <tr>
+                    <td>Train R2</td>
+                    <td>0.98</td>
+                    <td>0.81</td>
+                    <td>0.83</td>
+                </tr>
+                <tr>
+                    <td>Test R2</td>
+                    <td>0.27</td>
+                    <td>0.37</td>
+                    <td>0.32</td>
+                </tr>
+
+            </table>
+        
+            <h2>Predicted Prices (Feb 5, 2024 -Mar 5, 2024) 30 days</h2>
+            <div id="price-chart12"></div>
+        
+            <div class="analysis">
+                <h3>Analysis</h3>
+                <p>
+                    <strong>Train RMSE:</strong> Once again, RF performs significantly better than LSTM and GRU on the training set.
+                </p>
+                <p>
+                    <strong>Test RMSE:</strong> LSTM has the lowest Test RMSE, indicating better performance on unseen data compared to RF and GRU for the 30-day prediction.
+                </p>
+                <p>
+                    <strong>Train R2:</strong> RF has the highest R2 on the training set, showing it fits the training data very well, as observed in previous predictions.
+                </p>
+                <p>
+                    <strong>Test R2:</strong> LSTM has the highest Test R2, indicating better capture of the variability in the unseen data compared to the other models for the 30-day prediction.
+                </p>
+
+                <p>
+                    In summary, while RF performs better on the training set, LSTM provides more accurate predictions on the test set for the 30-day prediction, as indicated by its lower Test RMSE, higher Test R2, and lower Test  .
+                </p>
+            </div>
+        </div>
+        <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+   
+        <table border="1" style="width:100%; text-align: center; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Actual Price</th>
+                    <th>LSTM Price</th>
+                    <th>GRU Price</th>
+                    <th>RF Price</th>
+                    <th>LSTM Error (%)</th>
+                    <th>GRU Error (%)</th>
+                    <th>RF Error (%)</th>
+                </tr>
+            </thead>
+            <tbody id="price-table-body13"></tbody>
+        </table>
+        <script>
+            var dates = ['2024-02-05', '2024-02-06', '2024-02-07', '2024-02-08', '2024-02-09', '2024-02-10', '2024-02-11', '2024-02-12', '2024-02-13', '2024-02-14', '2024-02-15', '2024-02-16', '2024-02-17', '2024-02-18', '2024-02-19', '2024-02-20', '2024-02-21', '2024-02-22', '2024-02-23', '2024-02-24', '2024-02-25', '2024-02-26', '2024-02-27', '2024-02-28', '2024-02-29', '2024-03-01', '2024-03-02', '2024-03-03', '2024-03-04', '2024-03-05'];
+var actual_prices = [292.90, 290.00, 293.00, 290.60, 290.00, 289.00, 291.00, 294.00, 297.00, 296.00, 295.00, 298.00, 298.00, 300.00, 303.00, 305.00, 307.00, 305.00, 304.00, 307.00, 308.00, 305.00, 304.00, 307.00, 310.00, 309.00, 308.00, 311.00, 312.00, 310.00];
+
+var rf_prices = [290.77, 288.29, 287.35, 285.59, 281.70, 279.19, 278.86, 278.71, 278.21, 278.15, 278.15, 278.12, 278.10, 277.89, 277.79, 278.43, 278.24, 278.29, 278.22, 278.19, 278.37, 278.30, 278.42, 278.43, 278.42, 278.52, 278.36, 278.49, 278.47, 278.44];
+var lstm_prices = [298.09, 296.19, 294.85, 292.51, 289.68, 287.93, 285.66, 283.61, 282.06, 280.49, 279.25, 277.70, 276.33, 275.14, 274.17, 274.01, 273.60, 273.63, 273.23, 273.01, 273.06, 273.00, 273.26, 273.36, 273.28, 273.11, 273.14, 273.18, 273.16, 273.18];
+var gru_prices = [295.45, 294.31, 294.59, 294.59, 294.22, 293.58, 293.58, 293.37, 292.67, 291.93, 290.91, 289.91, 288.78, 287.81, 287.06, 286.73, 286.37, 286.22, 286.14, 286.02, 285.97, 285.96, 285.99, 286.03, 286.02, 286.03, 286.04, 286.05, 286.04, 286.05];
+
+            var trace8 = {
+                x: dates,
+                y: actual_prices,
+                mode: 'lines+markers',
+                name: 'Actual Prices'
+            };
+
+            var trace9 = {
+                x: dates,
+                y: rf_prices,
+                mode: 'lines+markers',
+                name: 'RF Predicted Prices'
+            };
+
+            var trace10 = {
+                x: dates,
+                y: lstm_prices,
+                mode: 'lines+markers',
+                name: 'LSTM Predicted Prices'
+            };
+
+            var trace11 = {
+                x: dates,
+                y: gru_prices,
+                mode: 'lines+markers',
+                name: 'GRU Predicted Prices'
+            };
+
+            var data3 = [trace8, trace9, trace10, trace11];
+
+            var layout3 = {
+                title: 'Predicted Prices for Nepal SBI (Feb 5, 2024 - Mar 5, 2024)',
+                xaxis: {
+                    title: 'Date'
+                },
+                yaxis: {
+                    title: 'Price (Rs)'
+                }
+            };
+
+            Plotly.newPlot('price-chart12', data3, layout3);
+                    
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body13');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+        
+        <!-- NBL 10 years -->
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2 id="nbl(15)">NBL</h2>
+        </div>
+
+        <div class="container">
+            <h2>Model Comparison of Nepal Bank Limited (NBL) of 20 days from 15 years of data</h2>
+        
+            <table border="1" cellpadding="10" cellspacing="0">
+                <tr>
+                    <th>Metric</th>
+                    <th>Long Short-Term Memory (LSTM)</th>
+                    <th>Gated Recurrent Unit (GRU)</th>
+                    <th>Random Forest (RF)</th>
+                </tr>
+                <tr>
+                    <td>Train RMSE</td>
+                    <td>37.98</td>
+                    <td>34.77</td>
+                    <td>11.10</td>
+                </tr>
+                <tr>
+                    <td>Test RMSE</td>
+                    <td>31.87</td>
+                    <td>27.67</td>
+                    <td>31.46</td>
+                </tr>
+                <tr>
+                    <td>Train R²</td>
+                    <td>0.90</td>
+                    <td>0.92</td>
+                    <td>0.99</td>
+                </tr>
+                <tr>
+                    <td>Test R²</td>
+                    <td>0.66</td>
+                    <td>0.74</td>
+                    <td>0.66</td>
+                </tr>
+            </table>
+            
+        
+            <h2>Predicted Prices (April 29, 2029 - June 17, 2029) 20 days</h2>
+            <div id="price-chart">
+                <h3>Analysis</h3>
+                <div class="analysis">
+                    <p><strong>Train RMSE:</strong> Random Forest (RF) exhibits the best fit to the training data with the lowest RMSE. GRU and LSTM show higher RMSE values, with LSTM having the highest.</p>
+                    <p><strong>Test RMSE:</strong> Gated Recurrent Unit (GRU) generalizes the best to unseen data with the lowest Test RMSE. LSTM performs better than RF on the test data.</p>
+                    <p><strong>Train R²:</strong> Random Forest (RF) achieves the highest R² value on training data, indicating the best fit. GRU and LSTM follow, with LSTM having the lowest R² in this category.</p>
+                    <p><strong>Test R²:</strong> Gated Recurrent Unit (GRU) captures the most variability in the test data with the highest R². LSTM and RF have the same Test R², with GRU outperforming both.</p>
+                    <p><strong>Conclusion:</strong> Random Forest excels in fitting training data, while Gated Recurrent Unit (GRU) performs the best in generalization, with the lowest Test RMSE and highest Test R².</p>
+                </div>
+            </div>
+            
+
+        <div id="price-chart"></div><h1 style="text-align: center;">Error Calculation</h1>
+        <table border="1"   style="width:100%; text-align: center; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Actual Price</th>
+                    <th>LSTM Price</th>
+                    <th>GRU Price</th>
+                    <th>RF Price</th>
+                    <th>LSTM Error (%)</th>
+                    <th>GRU Error (%)</th>
+                    <th>RF Error (%)</th>
+                </tr>
+            </thead>
+            <tbody id="price-table-body14"></tbody>
+        </table>
+        <script>
+           var dates = [
+    '2034-04-18', '2034-04-19', '2034-04-20', '2034-04-21', '2034-04-22',
+    '2034-04-23', '2034-04-24', '2034-04-25', '2034-04-26', '2034-04-27',
+    '2034-04-28', '2034-04-29', '2034-04-30', '2034-05-01', '2034-05-02',
+    '2034-05-03', '2034-05-04', '2034-05-05', '2034-05-06', '2034-05-07'
+];
+
+
+var actual_prices = [
+    550.40, 548.32, 546.95, 536.75, 524.36,
+    529.17, 520.56, 522.97, 542.39, 545.78,
+    557.70, 558.47, 548.24, 547.67, 560.46,
+    565.85, 549.70, 555.51, 558.21, 551.58
+];
+
+
+
+var rf_prices = [
+    565.12, 561.94, 558.89, 555.35, 552.48,
+    550.50, 545.61, 543.64, 541.50, 538.66,
+    536.19, 531.75, 528.20, 524.34, 523.08,
+    519.72, 517.20, 515.28, 512.59, 511.15
+];
+
+var lstm_prices = [
+    559.06, 559.99, 560.79, 560.35, 561.43,
+    559.62, 561.28, 559.25, 561.71, 561.52,
+    564.87, 561.84, 562.83, 560.91, 559.79,
+    561.57, 560.40, 560.52, 561.35, 560.41
+];
+
+
+var gru_prices = [
+    551.16, 550.40, 558.50, 552.43, 553.00,
+    552.94, 550.09, 550.18, 545.16, 548.65,
+    548.68, 552.05, 552.54, 549.09, 550.15,
+    549.44, 549.30, 551.76, 547.44, 548.57
+];
+
+
+
+            var trace8 = {
+                x: dates,
+                y: actual_prices,
+                mode: 'lines+markers',
+                name: 'Actual Prices'
+            };
+
+            var trace9 = {
+                x: dates,
+                y: rf_prices,
+                mode: 'lines+markers',
+                name: 'RF Predicted Prices'
+            };
+
+            var trace10 = {
+                x: dates,
+                y: lstm_prices,
+                mode: 'lines+markers',
+                name: 'LSTM Predicted Prices'
+            };
+
+            var trace11 = {
+                x: dates,
+                y: gru_prices,
+                mode: 'lines+markers',
+                name: 'GRU Predicted Prices'
+            };
+
+            var data3 = [trace8, trace9, trace10, trace11];
+
+            var layout3 = {
+                title: 'Predicted Prices for Nepal NBL (April 18, 2034 - May 7, 2024)',
+                xaxis: {
+                    title: 'Date'
+                },
+                yaxis: {
+                    title: 'Price (Rs)'
+                }
+            };
+
+            Plotly.newPlot('price-chart13', data3, layout3);
+                    
+            // Calculate errors and populate table
+            var tbody = document.getElementById('price-table-body14');
+            
+            for (var i = 0; i < dates.length; i++) {
+                var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+                var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+                var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+                
+                var row = `<tr>
+                    <td>${dates[i]}</td>
+                    <td>${actual_prices[i].toFixed(2)}</td>
+                    <td>${lstm_prices[i].toFixed(2)}</td>
+                    <td>${gru_prices[i].toFixed(2)}</td>
+                    <td>${rf_prices[i].toFixed(2)}</td>
+                    <td>${lstm_error.toFixed(2)}</td>
+                    <td>${gru_error.toFixed(2)}</td>
+                    <td>${rf_error.toFixed(2)}</td>
+                </tr>`;
+                
+                tbody.innerHTML += row;
+            }
+        </script>
+       
+    </div>
+    <!-- 15 years end here -->
+    
+    
+         <div class="container">
+    <div class="section-title" data-aos="fade-up">
+        <h2 id="nbl(10)">NBL</h2>
+    </div>
+
+
+<div class="container">
+    <h2>Model Comparison of Random data for Nepal Bank Limited (NBL 10years) of 20 days</h2>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Long Short-Term Memory (LSTM)</th>
+            <th>Gated Recurrent Unit (GRU)</th>
+            <th>Random Forest (RF)</th>
+        </tr>
+        <tr>
+            <td>Train RMSE</td>
+            <td>17.61</td>
+            <td>16.66</td>
+            <td>4.83</td>
+        </tr>
+        <tr>
+            <td>Test RMSE</td>
+            <td>10.61</td>
+            <td>9.62</td>
+            <td>10.01</td>
+        </tr>
+        <tr>
+            <td>Train R2</td>
+            <td>0.88</td>
+            <td>0.89</td>
+            <td>0.99</td>
+        </tr>
+        <tr>
+            <td>Test R2</td>
+            <td>0.39</td>
+            <td>0.50</td>
+            <td>0.49</td>
+        </tr>
+    </table>
+
+    <h2>Predicted Prices (March 17, 2034 - April 5, 2034) 20 days</h2>
+    <div id="price-chart"></div>
+
+    <div class="analysis">
+        <h3>Analysis</h3>
+        <p>
+            <strong>Train RMSE:</strong> RF performs significantly better than LSTM and GRU on the training set.
+        </p>
+        <p>
+            <strong>Test RMSE:</strong> GRU has the lowest Test RMSE, indicating better performance on unseen data compared to LSTM and RF.
+        </p>
+        <p>
+            <strong>Train R2:</strong> RF has the highest R2 on the training set, showing it fits the training data very well.
+        </p>
+        <p>
+            <strong>Test R2:</strong> GRU has the highest Test R2, indicating it captures the variability in the unseen data better than the other models.
+        </p>
+        <p>
+            In conclusion, while the RF model fits the training data best, the GRU model provides the most accurate predictions on the test set, as indicated by its lower Test RMSE and higher Test R2. "In this analysis, we employed a dropout rate of 0.2 for the neural network models (LSTM and GRU), which helped mitigate overfitting during training. This dropout rate can be further fine-tuned to potentially enhance model performance, ensuring better generalization on unseen data."
+        </p>
+    </div>
+</div>
+
+<div id="price-chart14"></div>
+<h1 style="text-align: center;">Error Calculation</h1>
+<table border="1" style="width:100%; text-align: center; margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Actual Price</th>
+            <th>LSTM Price</th>
+            <th>GRU Price</th>
+            <th>RF Price</th>
+            <th>LSTM Error (%)</th>
+            <th>GRU Error (%)</th>
+            <th>RF Error (%)</th>
+        </tr>
+    </thead>
+    <tbody id="price-table-body15"></tbody>
+</table>
+
+<script>
+    var dates = [
+        "2034-03-17", "2034-03-18", "2034-03-19", "2034-03-20", "2034-03-21",
+        "2034-03-22", "2034-03-23", "2034-03-24", "2034-03-25", "2034-03-26",
+        "2034-03-27", "2034-03-28", "2034-03-29", "2034-03-30", "2034-03-31",
+        "2034-04-01", "2034-04-02", "2034-04-03", "2034-04-04", "2034-04-05"
+    ];
+
+    var actual_prices = [
+        204.57, 205.66, 203.52, 199.86, 200.94, 203.67, 201.8, 200.76, 195.31,
+        194.51, 191.77, 192.09, 185.7, 185.68, 186.43, 187.63, 194.41, 194.9,
+        194.17, 193.7
+    ];
+
+    var rf_prices = [
+        209.08, 210.05, 210.34, 209.45, 208.76, 206.29,
+        204.85, 204.34, 204.01, 204.39, 204.14, 203.47,
+        204.08, 203.93, 204.79, 205.18, 206.47, 207.36,
+        207.66, 208.49
+    ];
+
+    var lstm_prices = [
+        193.59, 193.92, 193.40, 193.80, 193.51, 193.99,
+        193.74, 193.44, 194.27, 194.90, 194.29, 194.73,
+        194.88, 194.90, 195.78, 196.09, 195.44, 196.85,
+        196.15, 196.19
+    ];
+
+    var gru_prices = [
+        204.64, 203.86, 203.06, 204.05, 203.24, 203.81,
+        203.86, 204.77, 205.28, 204.42, 203.73, 204.80,
+        204.83, 204.24, 205.37, 205.98, 205.70, 205.14,
+        206.21, 205.56
+    ];
+
+    var trace0 = {
+        x: dates,
+        y: actual_prices,
+        mode: 'lines+markers',
+        name: 'Actual Prices'
+    };
+
+    var trace1 = {
+        x: dates,
+        y: lstm_prices,
+        mode: 'lines+markers',
+        name: 'LSTM Predicted Prices'
+    };
+
+    var trace2 = {
+        x: dates,
+        y: gru_prices,
+        mode: 'lines+markers',
+        name: 'GRU Predicted Prices'
+    };
+
+    var trace3 = {
+        x: dates,
+        y: rf_prices,
+        mode: 'lines+markers',
+        name: 'RF Predicted Prices'
+    };
+
+    var data = [trace0, trace1, trace2, trace3];
+
+    var layout = {
+        title: 'Predicted Prices for ADBL (March 17, 2034 - April 5, 2034)',
+        xaxis: {
+            title: 'Date'
+        },
+        yaxis: {
+            title: 'Price (Rs)'
+        }
+    };
+
+    Plotly.newPlot('price-chart14', data, layout);
+
+    // Calculate errors and populate table
+    var tbody = document.getElementById('price-table-body15');
+
+    for (var i = 0; i < dates.length; i++) {
+        var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+        var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+        var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+
+        var row = `<tr>
+            <td>${dates[i]}</td>
+            <td>${actual_prices[i].toFixed(2)}</td>
+            <td>${lstm_prices[i].toFixed(2)}</td>
+            <td>${gru_prices[i].toFixed(2)}</td>
+            <td>${rf_prices[i].toFixed(2)}</td>
+            <td>${lstm_error.toFixed(2)}</td>
+            <td>${gru_error.toFixed(2)}</td>
+            <td>${rf_error.toFixed(2)}</td>
+        </tr>`;
+
+        tbody.innerHTML += row;
+    }
+</script>
+
+    </div>
+    
+    <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2 id="upper">UPPER</h2>
+            </div>
+    <h2>Model Comparison of UPPER Tamakoshi Hydropower Ltd of 14 days</h2>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Long Short-Term Memory (LSTM)</th>
+            <th>Gated Recurrent Unit (GRU)</th>
+            <th>Random Forest (RF)</th>
+        </tr>
+        <tr>
+            <td>Train RMSE</td>
+            <td>57.49</td>
+            <td>56.11</td>
+            <td>12.64</td>
+        </tr>
+        <tr>
+            <td>Test RMSE</td>
+            <td>40.99</td>
+            <td>32.49</td>
+            <td>64.11</td>
+        </tr>
+        <tr>
+            <td>Train R2</td>
+            <td>0.91</td>
+            <td>0.92</td>
+            <td>1.00</td>
+        </tr>
+        <tr>
+            <td>Test R2</td>
+            <td>0.88</td>
+            <td>0.92</td>
+            <td>-7.35</td>
+        </tr>
+    </table>
+
+    <h2>Predicted Prices (August 2, 2024 - August 15, 2024) 14 days</h2>
+    <div id="price-chart">
+
+    <div class="analysis">
+        <h3>Analysis</h3>
+        <p>
+            <strong>Train RMSE:</strong> The RF model performs best on the training set, followed by LSTM and GRU.
+        </p>
+        <p>
+            <strong>Test RMSE:</strong> GRU shows the lowest Test RMSE, indicating the best performance on unseen data compared to LSTM and RF.
+        </p>
+        <p>
+            <strong>Train R2:</strong> RF has the highest R2 on the training set, indicating a very good fit to the training data.
+        </p>
+        <p>
+            <strong>Test R2:</strong> GRU has the highest Test R2, reflecting the best ability to capture the variability in unseen data compared to the other models.
+        </p>
+        <p>
+            In summary, while the RF model fits the training data best, the GRU model provides the most accurate predictions on the test set, as evidenced by its lower Test RMSE and higher Test R2.
+        </p>
+    </div>
+</div>
+<div id="price-chart15"></div>
+<h1 style="text-align: center;">Error Calculation</h1>
+<table border="1" style="width:100%; text-align: center; margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Actual Price</th>
+            <th>LSTM Price</th>
+            <th>GRU Price</th>
+            <th>RF Price</th>
+            <th>LSTM Error (%)</th>
+            <th>GRU Error (%)</th>
+            <th>RF Error (%)</th>
+        </tr>
+    </thead>
+    <tbody id="price-table-body16"></tbody>
+</table>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    var dates = [
+        "2024-08-02", "2024-08-03", "2024-08-04", "2024-08-05", "2024-08-06",
+        "2024-08-07", "2024-08-08", "2024-08-09", "2024-08-10", "2024-08-11",
+        "2024-08-12", "2024-08-13", "2024-08-14", "2024-08-15"
+    ];
+
+    var actual_prices = [
+        286, 270.5, 256.8, 254.9, 234.3,
+        213, 209.1, 200, 215.1, 215,
+        215.7, 211, 213, 217
+    ];
+
+    var lstm_prices = [
+        209.32, 216.67, 218.70, 218.41, 221.89,
+        221.73, 223.83, 218.71, 224.98, 224.43,
+        229.34, 227.93, 227.00, 229.89
+    ];
+
+    var gru_prices = [
+        201.01, 201.83, 201.01, 201.30, 203.21,
+        205.82, 208.15, 208.56, 206.47, 205.36,
+        207.26, 212.58, 211.51, 210.24
+    ];
+
+    var rf_prices = [
+        232.91, 237.60, 240.86, 244.01, 245.86,
+        247.98, 248.60, 249.98, 252.32, 253.85,
+        254.86, 258.10, 262.74, 265.35
+    ];
+
+    var trace0 = {
+        x: dates,
+        y: actual_prices,
+        mode: 'lines+markers',
+        name: 'Actual Prices'
+    };
+
+    var trace1 = {
+        x: dates,
+        y: lstm_prices,
+        mode: 'lines+markers',
+        name: 'LSTM Predicted Prices'
+    };
+
+    var trace2 = {
+        x: dates,
+        y: gru_prices,
+        mode: 'lines+markers',
+        name: 'GRU Predicted Prices'
+    };
+
+    var trace3 = {
+        x: dates,
+        y: rf_prices,
+        mode: 'lines+markers',
+        name: 'RF Predicted Prices'
+    };
+
+    var data = [trace0, trace1, trace2, trace3];
+
+    var layout = {
+        title: 'Predicted Prices for Upper Tamakoshi Hydropower Ltd (August 2, 2024 - August 15, 2024)',
+        xaxis: {
+            title: 'Date'
+        },
+        yaxis: {
+            title: 'Price'
+        }
+    };
+
+    Plotly.newPlot('price-chart15', data, layout);
+
+    // Calculate errors and populate table
+    var tbody = document.getElementById('price-table-body16');
+
+    for (var i = 0; i < dates.length; i++) {
+        var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+        var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+        var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+
+        var row = `<tr>
+            <td>${dates[i]}</td>
+            <td>${actual_prices[i].toFixed(2)}</td>
+            <td>${lstm_prices[i].toFixed(2)}</td>
+            <td>${gru_prices[i].toFixed(2)}</td>
+            <td>${rf_prices[i].toFixed(2)}</td>
+            <td>${lstm_error.toFixed(2)}</td>
+            <td>${gru_error.toFixed(2)}</td>
+            <td>${rf_error.toFixed(2)}</td>
+        </tr>`;
+
+        tbody.innerHTML += row;
+    }
+</script>
+<!-- chcl starts here -->
+<div class="container">
+    <div class="section-title" data-aos="fade-up">
+        <h2 id="chcl">CHCL </h2>
+    </div>
+<h2>Model Comparison of Chilime  Hydropower Company Limited of 14 days</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Metric</th>
+            <th>Long Short-Term Memory (LSTM)</th>
+            <th>Gated Recurrent Unit (GRU)</th>
+            <th>Random Forest (RF)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Train RMSE</td>
+            <td>40.11</td>
+            <td>34.58</td>
+            <td>9.70</td>
+        </tr>
+        <tr>
+            <td>Test RMSE</td>
+            <td>26.78</td>
+            <td>22.44</td>
+            <td>30.53</td>
+        </tr>
+        <tr>
+            <td>Train R2</td>
+            <td>0.86</td>
+            <td>0.90</td>
+            <td>0.99</td>
+        </tr>
+        <tr>
+            <td>Test R2</td>
+            <td>0.37</td>
+            <td>0.57</td>
+            <td>0.20</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>Predicted Prices (June 17, 2024 - June 30, 2024) 14 days</h2>
+<div id="price-chart">
+
+    <div class="analysis">
+        <h3>Analysis</h3>
+        <p>
+            <strong>Train RMSE:</strong> The RF model performs best on the training set with the lowest Train RMSE of 9.70, followed by GRU with a Train RMSE of 34.58, and LSTM with the highest Train RMSE of 40.11.
+        </p>
+        <p>
+            <strong>Test RMSE:</strong> GRU shows the lowest Test RMSE of 22.44, indicating the best performance on unseen data compared to LSTM with a Test RMSE of 26.78, and RF, which has the highest Test RMSE of 30.53.
+        </p>
+        <p>
+            <strong>Train R2:</strong> RF has the highest R2 on the training set at 0.99, indicating a very good fit to the training data. GRU follows with a Train R2 of 0.90, and LSTM has the lowest Train R2 of 0.86.
+        </p>
+        <p>
+            <strong>Test R2:</strong> GRU has the highest Test R2 of 0.57, reflecting the best ability to capture the variability in unseen data compared to LSTM with a Test R2 of 0.37, and RF, which has the lowest Test R2 of 0.20.
+        </p>
+        <p>
+            In summary, while the RF model fits the training data best, the GRU model provides the most accurate predictions on the test set, as evidenced by its lower Test RMSE and higher Test R2.
+        </p>
+        </div>
+        
+</div>
+<div id="price-chart16"></div>
+<h1 style="text-align: center;">Error Calculation</h1>
+<table border="1" style="width:100%; text-align: center; margin-top: 20px;">
+<thead>
+<tr>
+    <th>Date</th>
+    <th>Actual Price</th>
+    <th>LSTM Price</th>
+    <th>GRU Price</th>
+    <th>RF Price</th>
+    <th>LSTM Error (%)</th>
+    <th>GRU Error (%)</th>
+    <th>RF Error (%)</th>
+</tr>
+</thead>
+<tbody id="price-table-body17"></tbody>
+</table>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+var dates = [
+    "2024-06-17", "2024-06-18", "2024-06-19", "2024-06-20", "2024-06-21",
+    "2024-06-22", "2024-06-23", "2024-06-24", "2024-06-25", "2024-06-26",
+    "2024-06-27", "2024-06-28", "2024-06-29", "2024-06-30"
+];
+
+
+var actual_prices = [
+    436, 435.1, 433.5, 436, 435,
+    441, 435, 433, 431.1, 431,
+    439, 437.9, 440, 441.3
+];
+
+
+
+var lstm_prices = [
+    437.83, 441.09, 438.62, 438.74, 435.39,
+    438.01, 439.35, 437.18, 438.05, 438.94,
+    440.17, 437.82, 441.44, 439.04
+];
+
+
+var gru_prices = [
+    444.24, 442.28, 445.06, 445.92, 445.29,
+    444.87, 443.18, 444.56, 444.61, 443.64,
+    442.72, 444.70, 443.39, 443.87
+];
+
+
+var rf_prices = [
+    433.25, 432.02, 430.10, 428.10, 426.15,
+    424.02, 423.68, 422.88, 419.17, 415.63,
+    412.50, 409.28, 407.35, 407.17
+];
+
+
+var trace0 = {
+x: dates,
+y: actual_prices,
+mode: 'lines+markers',
+name: 'Actual Prices'
+};
+
+var trace1 = {
+x: dates,
+y: lstm_prices,
+mode: 'lines+markers',
+name: 'LSTM Predicted Prices'
+};
+
+var trace2 = {
+x: dates,
+y: gru_prices,
+mode: 'lines+markers',
+name: 'GRU Predicted Prices'
+};
+
+var trace3 = {
+x: dates,
+y: rf_prices,
+mode: 'lines+markers',
+name: 'RF Predicted Prices'
+};
+
+var data = [trace0, trace1, trace2, trace3];
+
+var layout = {
+title: 'Predicted Prices for Chilime Hydropower Company Limited (June 17, 2024 - June 30, 2024)',
+xaxis: {
+    title: 'Date'
+},
+yaxis: {
+    title: 'Price'
+}
+};
+
+Plotly.newPlot('price-chart16', data, layout);
+
+// Calculate errors and populate table
+var tbody = document.getElementById('price-table-body17');
+
+for (var i = 0; i < dates.length; i++) {
+var lstm_error = Math.abs((actual_prices[i] - lstm_prices[i]) / actual_prices[i]) * 100;
+var gru_error = Math.abs((actual_prices[i] - gru_prices[i]) / actual_prices[i]) * 100;
+var rf_error = Math.abs((actual_prices[i] - rf_prices[i]) / actual_prices[i]) * 100;
+
+var row = `<tr>
+    <td>${dates[i]}</td>
+    <td>${actual_prices[i].toFixed(2)}</td>
+    <td>${lstm_prices[i].toFixed(2)}</td>
+    <td>${gru_prices[i].toFixed(2)}</td>
+    <td>${rf_prices[i].toFixed(2)}</td>
+    <td>${lstm_error.toFixed(2)}</td>
+    <td>${gru_error.toFixed(2)}</td>
+    <td>${rf_error.toFixed(2)}</td>
+</tr>`;
+
+tbody.innerHTML += row;
+}
+</script>
+<!-- chcl ends here -->
+
+</div>
+
+            <strong>
+            Overall Summary
+                </strong> <br>
+            Across multiple banks and time frames, GRU generally provides the best performance on unseen test data, demonstrating superior generalization compared to LSTM and RF. Random Forest often overfits the training data, as indicated by its high Train R2 and low Train RMSE but poor Test R2 and high Test RMSE. LSTM also shows strong performance but typically falls slightly behind GRU in generalization metrics. Further fine-tuning, such as adjusting dropout rates and exploring other model architectures, may enhance performance across models. We choose 80:20 data split for some banks and we also choose 70:30 data split . We observed that the 70:30 split of data for training and testing resulted in better output.
+
+
+        </div>
+    </div>
+</section>
+<a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" style="position:fixed; bottom:20px; right:20px; background-color:#333; color:#fff; padding:10px; border-radius:5px; text-align:center; text-decoration:none; font-size:20px; display:none;" id="scrollToTop" title="Scroll to Top">&#9650;</a>
+<script>window.addEventListener('scroll', function() {document.getElementById('scrollToTop').style.display = window.scrollY > 200 ? 'block' : 'none';});</script>
+
+{% endblock %}
+
+
